@@ -1,6 +1,7 @@
 import random
 import time
 import speech_recognition as sr
+import pyttsx3 as p3
 # harvard = sr.AudioFile('Desktop/temp/speechfile/audio_files/harvard.wav')
 # with harvard as source:
 #     audio = r.record(source)
@@ -42,13 +43,18 @@ def recognize_speech_from_mic(recognizer,microphone):
     return response
 
 if __name__== "__main__":
+    engine = p3.init()
     r = sr.Recognizer()
-    m = sr.Microphone()
+    m = sr.Microphone(device_index=3)
     print('Say something')
     running = 1
+    voices = engine.getProperty('voices')
     while running:
         guess = recognize_speech_from_mic(r,m)
         if guess['success'] == True:
-            print("You said: {}".format(guess["transcription"]))
+            # print("You said: {}".format(guess["transcription"]))
+            
+            engine.say("You said: {}".format(guess["transcription"]))
+            engine.runAndWait()
         else:
             print("Sorry I didnt catch it")
